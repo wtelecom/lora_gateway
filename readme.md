@@ -1,6 +1,8 @@
 #Attention
-This is a fork with the needed modifications to use witha Multitech MTAC-LORA (MultiConnect mCard) board
-
+This is a fork with the needed modifications to be able to use lora_gateway 
+with a Multitech MTAC-LORA (MultiConnect mCard) board instead of a 
+IoT Starter Kit platform.
+ 
 
 
 
