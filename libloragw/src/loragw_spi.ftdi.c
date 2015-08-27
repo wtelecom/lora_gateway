@@ -50,9 +50,9 @@ Maintainer: Sylvain Miermont
 #define READ_ACCESS		0x00
 #define WRITE_ACCESS	0x80
 
-/* parameters for a FT2232H */
+/* parameters for a FT232H */
 #define VID		0x0403
-#define PID		0x6010
+#define PID		0x6014
 
 /* -------------------------------------------------------------------------- */
 /* --- PUBLIC FUNCTIONS DEFINITION ------------------------------------------ */
@@ -76,10 +76,10 @@ int lgw_spi_open(void **spi_target_ptr) {
 		return LGW_SPI_ERROR;
 	}
 	
-	/* toggle pin ADBUS5 of the FT2232H */
-	/* On the Semtech reference board, it resets the SX1301 */
-	a = PinHigh(mpsse, GPIOL1);
-	b = PinLow(mpsse, GPIOL1);
+	/* toggle pin ADBUS5 of the FT232H */
+	/* On the MTAC-LORA, it resets the SX1301 */
+	a = PinLow(mpsse, GPIOL1);
+	b = PinHigh(mpsse, GPIOL1);
 	if ((a != MPSSE_OK) || (b != MPSSE_OK)) {
 		DEBUG_MSG("ERROR: IMPOSSIBLE TO TOGGLE GPIOL1/ADBUS5\n");
 		return LGW_SPI_ERROR;
