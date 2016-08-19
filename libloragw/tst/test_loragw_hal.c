@@ -76,7 +76,7 @@ void usage(void) {
 	printf( " -b <float> Radio B RX frequency in MHz\n");
 	printf( " -t <float> Radio TX frequency in MHz\n");
 	printf( " -r <int> Radio type (SX1255:1255, SX1257:1257)\n");
-	printf( " -k <int> Concentrator clock source (0: radio_A, 1: radio_B(default))\n");
+	printf( " -k <int> Concentrator clock source (0: radio_A(default in MTAC-LORA), 1: radio_B)\n");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 	int nb_pkt;
 	uint32_t fa = 0, fb = 0, ft = 0;
 	enum lgw_radio_type_e radio_type = LGW_RADIO_TYPE_NONE;
-	uint8_t clocksource = 1; /* Radio B is source by default */
+	uint8_t clocksource = 0; /* Radio A is source in MTAC-LORA */
 	
 	uint32_t tx_cnt = 0;
 	unsigned long loop_cnt = 0;
