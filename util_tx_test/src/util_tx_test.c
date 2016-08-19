@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 	
 	/* RF configuration (TX fail if RF chain is not enabled) */
 	enum lgw_radio_type_e radio_type = LGW_RADIO_TYPE_NONE;
-	uint8_t clocksource = 0; /* Radio A is source by default */
+	uint8_t clocksource = 0; /* Radio A is source in MTAC-LORA */
 	struct lgw_conf_board_s boardconf;
 	struct lgw_conf_rxrf_s rfconf;
 	
@@ -255,7 +255,7 @@ int main(int argc, char **argv)
 				invert = true;
 				break;
 
-			case 'k': /* <int> Concentrator clock source (Radio A or Radio B) */
+			case 'k': /* <int> Concentrator clock source (Radio A(default in MTAC-LORA) or Radio B) */
 				sscanf(optarg, "%i", &xi);
 				clocksource = (uint8_t)xi;
 				break;
