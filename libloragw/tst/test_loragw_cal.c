@@ -142,7 +142,7 @@ int main(int argc, char **argv)
 	double xd = 0.0;
 	uint32_t fa = 0, fb = 0;
 	enum lgw_radio_type_e radio_type = LGW_RADIO_TYPE_NONE;
-	uint8_t clocksource = 1; /* Radio B is source by default */
+	uint8_t clocksource = 0; /* Radio A is source in MTAC-LORA */
 	uint8_t tx_enable = 0;
 	int nb_cal = 5;	
 	
