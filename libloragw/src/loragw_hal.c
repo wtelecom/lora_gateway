@@ -1077,32 +1077,32 @@ int lgw_start(void) {
 		return LGW_HAL_ERROR;
 	}
 
-	/* Update Tx gain LUT and start AGC */
-	for (i = 0; i < txgain_lut.size; ++i) {
-		lgw_reg_w(LGW_RADIO_SELECT, AGC_CMD_WAIT); /* start a transaction */
-		wait_ms(1);
-		load_val = txgain_lut.lut[i].mix_gain + (16 * txgain_lut.lut[i].dac_gain) + (64 * txgain_lut.lut[i].pa_gain);
-		lgw_reg_w(LGW_RADIO_SELECT, load_val);
-		wait_ms(1);
-		lgw_reg_r(LGW_MCU_AGC_STATUS, &read_val);
-		if (read_val != (0x30 + i)) {
-			DEBUG_PRINTF("ERROR: AGC FIRMWARE INITIALIZATION FAILURE, STATUS 0x%02X\n", (uint8_t)read_val);
-			return LGW_HAL_ERROR;
-		}
-	}
-	/* As the AGC fw is waiting for 16 entries, we need to abort the transaction if we get less entries */
-	if (txgain_lut.size < TX_GAIN_LUT_SIZE_MAX) {
-		lgw_reg_w(LGW_RADIO_SELECT, AGC_CMD_WAIT);
-		wait_ms(1);
-		load_val = AGC_CMD_ABORT;
-		lgw_reg_w(LGW_RADIO_SELECT, load_val);
-		wait_ms(1);
-		lgw_reg_r(LGW_MCU_AGC_STATUS, &read_val);
-		if (read_val != 0x30) {
-			DEBUG_PRINTF("ERROR: AGC FIRMWARE INITIALIZATION FAILURE, STATUS 0x%02X\n", (uint8_t)read_val);
-			return LGW_HAL_ERROR;
-		}
-	}
+       /* As the AGC fw is waiting for 16 entries, we need to abort the transaction if we get less entries */
+        if (txgain_lut.size < 16) {
+                lgw_reg_w(LGW_RADIO_SELECT, AGC_CMD_WAIT);
+                wait_ms(1);
+                load_val = AGC_CMD_ABORT;
+                lgw_reg_w(LGW_RADIO_SELECT, load_val);
+                wait_ms(1);
+                lgw_reg_r(LGW_MCU_AGC_STATUS, &read_val);
+                if (read_val != 0x30) {
+                        DEBUG_PRINTF("ERROR: AGC FIRMWARE INITIALIZATION FAILURE, STATUS 0x%02X\n", (uint8_t)read_val);
+                        return LGW_HAL_ERROR;
+                }
+        }
+        /* Update Tx gain LUT and start AGC */
+        for (i = 0; i < 16; ++i) {
+                lgw_reg_w(LGW_RADIO_SELECT, AGC_CMD_WAIT); /* start a transaction */
+                wait_ms(1);
+                load_val = txgain_lut.lut[i].mix_gain + (16 * txgain_lut.lut[i].dac_gain) + (64 * txgain_lut.lut[i].pa_gain);
+                lgw_reg_w(LGW_RADIO_SELECT, load_val);
+                wait_ms(1);
+                lgw_reg_r(LGW_MCU_AGC_STATUS, &read_val);
+                if (read_val != (0x30 + i)) {
+                        DEBUG_PRINTF("ERROR: AGC FIRMWARE INITIALIZATION FAILURE, STATUS 0x%02X\n", (uint8_t)read_val);
+                        return LGW_HAL_ERROR;
+                }
+        }
 
 	/* Load Tx freq MSBs (always 3 if f > 768 for SX1257 or f > 384 for SX1255 */
 	lgw_reg_w(LGW_RADIO_SELECT, AGC_CMD_WAIT);
