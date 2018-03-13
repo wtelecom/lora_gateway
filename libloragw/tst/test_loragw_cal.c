@@ -221,6 +221,7 @@ int main(int argc, char **argv)
 	memset(&boardconf, 0, sizeof(boardconf));
 
 	boardconf.lorawan_public = true;
+	boardconf.lora_direct = false;
 	boardconf.clksrc = clocksource;
 	lgw_board_setconf(boardconf);
 

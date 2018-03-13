@@ -167,6 +167,7 @@ static uint8_t fsk_sync_word_size = 3; /* default number of bytes for FSK sync w
 static uint64_t fsk_sync_word= 0xC194C1; /* default FSK sync word (ALIGNED RIGHT, MSbit first) */
 
 static bool lorawan_public = false;
+static bool lora_direct = false;
 static uint8_t rf_clkout = 0;
 
 static struct lgw_tx_gain_lut_s txgain_lut = {
@@ -473,13 +474,19 @@ void lgw_constant_adjust(void) {
 	// lgw_reg_w(LGW_SYNCH_DETECT_TH,1); /* default 1 */
 	// lgw_reg_w(LGW_ZERO_PAD,0); /* default 0 */
 	lgw_reg_w(LGW_SNR_AVG_CST,3); /* default 2 */
-	if (lorawan_public) { /* LoRa network */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,4); /* default 2 */
-	} else { /* private network */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,1); /* default 1 */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,2); /* default 2 */
+	if (lora_direct) { /* LoRa direct */
+		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
+		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
+	} else {
+		if (lorawan_public) { /* LoRa network */
+			lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
+			lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,4); /* default 2 */
+		} else { /* private network */
+			lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,1); /* default 1 */
+			lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,2); /* default 2 */
+		}	
 	}
+	
 
 	// lgw_reg_w(LGW_PREAMBLE_FINE_TIMING_GAIN,1); /* default 1 */
 	// lgw_reg_w(LGW_ONLY_CRC_EN,1); /* default 1 */
@@ -495,12 +502,17 @@ void lgw_constant_adjust(void) {
 	// lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_GAIN,1); /* default 1 */
 	// lgw_reg_w(LGW_MBWSSF_SYNCH_DETECT_TH,1); /* default 1 */
 	// lgw_reg_w(LGW_MBWSSF_ZERO_PAD,0); /* default 0 */
-	if (lorawan_public) { /* LoRa network */
-		lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
-		lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK2_POS,4); /* default 2 */
+	if (lora_direct) { /* LoRa direct */
+		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
+		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
 	} else {
-		lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK1_POS,1); /* default 1 */
-		lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK2_POS,2); /* default 2 */
+		if (lorawan_public) { /* LoRa network */
+			lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
+			lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK2_POS,4); /* default 2 */
+		} else {
+			lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK1_POS,1); /* default 1 */
+			lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK2_POS,2); /* default 2 */
+		}
 	}
 	// lgw_reg_w(LGW_MBWSSF_ONLY_CRC_EN,1); /* default 1 */
 	// lgw_reg_w(LGW_MBWSSF_PAYLOAD_FINE_TIMING_GAIN,2); /* default 2 */
@@ -536,12 +548,17 @@ void lgw_constant_adjust(void) {
 	/* TX LoRa */
 	// lgw_reg_w(LGW_TX_MODE,0); /* default 0 */
 	lgw_reg_w(LGW_TX_SWAP_IQ,1); /* "normal" polarity; default 0 */
-	if (lorawan_public) { /* LoRa network */
-		lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
-		lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK2_POS,4); /* default 2 */
-	} else { /* Private network */
-		lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK1_POS,1); /* default 1 */
-		lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK2_POS,2); /* default 2 */
+	if (lora_direct) { /* LoRa direct */
+		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
+		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
+	} else {
+		if (lorawan_public) { /* LoRa network */
+			lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
+			lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK2_POS,4); /* default 2 */
+		} else { /* Private network */
+			lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK1_POS,1); /* default 1 */
+			lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK2_POS,2); /* default 2 */
+		}
 	}
 
 	/* TX FSK */
@@ -566,9 +583,10 @@ int lgw_board_setconf(struct lgw_conf_board_s conf) {
 
 	/* set internal config according to parameters */
 	lorawan_public = conf.lorawan_public;
+	lora_direct = conf.lora_direct;
 	rf_clkout = conf.clksrc;
 
-	DEBUG_PRINTF("Note: board configuration; lorawan_public:%d, clksrc:%d\n", lorawan_public, rf_clkout);
+	DEBUG_PRINTF("Note: board configuration; lorawan_public:%d, clksrc:%d, lora_direct:%d\n", lorawan_public, rf_clkout, lora_direct);
 
 	return LGW_HAL_SUCCESS;
 }
