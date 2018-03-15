@@ -503,8 +503,8 @@ void lgw_constant_adjust(void) {
 	// lgw_reg_w(LGW_MBWSSF_SYNCH_DETECT_TH,1); /* default 1 */
 	// lgw_reg_w(LGW_MBWSSF_ZERO_PAD,0); /* default 0 */
 	if (lora_direct) { /* LoRa direct */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
+		lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
+		lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
 	} else {
 		if (lorawan_public) { /* LoRa network */
 			lgw_reg_w(LGW_MBWSSF_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
@@ -549,8 +549,8 @@ void lgw_constant_adjust(void) {
 	// lgw_reg_w(LGW_TX_MODE,0); /* default 0 */
 	lgw_reg_w(LGW_TX_SWAP_IQ,1); /* "normal" polarity; default 0 */
 	if (lora_direct) { /* LoRa direct */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
-		lgw_reg_w(LGW_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
+		lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK1_POS,5); /* default 1 */
+		lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK2_POS,6); /* default 2 */
 	} else {
 		if (lorawan_public) { /* LoRa network */
 			lgw_reg_w(LGW_TX_FRAME_SYNCH_PEAK1_POS,3); /* default 1 */
